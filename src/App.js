@@ -1,26 +1,32 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Title from './Components/Title';
+import Info from './Components/Info';
+const APIkey = 'b91ba3c6';
+const api = `http://www.omdbapi.com/?t=notebook&apikey=${APIkey}&`;
 
-function App() {
+class App extends React.Component {
+  state = {movieInfo: null}
+  selectedMovie = {
+  "title": "Demolition Man",
+  "rating": 10,
+  "release_year": 1993};
+  getMovieData = () => {
+    fetch(api).then(response => response.json()
+    ).then(result => this.setState(
+        {
+          movieInfo: result
+        },
+        () => console.log(this.state.movieInfo)
+      )
+      );
+  };
+  render() {  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
-
+      <div className="App">
+        <Info movie={this.selectedMovie}/>
+        {/* <Title movie={this.selectedMovie}/> */}
+      </div>
+    );
+  };
+};
 export default App;
